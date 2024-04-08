@@ -6,33 +6,34 @@ const [livros, setLivros] = useState([]);
 const [novoLivro, setNovoLivro] = useState({
   isbn: '',
   titulo: '',
-  : '',
-  ano: '',
+  editora : '',
+  genero: '',
+  autor: '',
 });
 useEffect(() => {
-  fetchVeiculos();
+  fetchLivros();
 }, []);
-const fetchVeiculos = async () => {
+const fetchLivros = async () => {
   try {
-    const response = await axios.get('http://localhost:8090/veiculos');
-    setVeiculos(response.data);
+    const response = await axios.get('http://localhost:8090/livros');
+    setLivros(response.data);
   } catch (error) {
     console.error('Erro ao buscar veículos:', error);
   }
 };
 const handleInputChange = (event) => {
   const { name, value } = event.target;
-  setNovoVeiculo((prevVeiculo) => ({
-    ...prevVeiculo,
+  setNovoLivro((prevLivro) => ({
+    ...prevLivro,
     [name]: value,
   }));
 };
 const handleSubmit = async (event) => {
   event.preventDefault();
   try {
-    await axios.post('http://localhost:8090/veiculos', novoVeiculo);
-    fetchVeiculos();
-    setNovoVeiculo({
+    await axios.post('http://localhost:8090/livros', novoLivro);
+    fetchLivros();
+    setNovoLivro({
       placa: '',
       montadora: '',
       modelo: '',
@@ -44,16 +45,16 @@ const handleSubmit = async (event) => {
 };
 const handleDelete = async (id) => {
   try {
-    await axios.delete(`http://localhost:8090/veiculos/${id}`);
-    fetchVeiculos();
+    await axios.delete(`http://localhost:8090/livros/${id}`);
+    fetchLivros();
   } catch (error) {
     console.error('Erro ao excluir veículo:', error);
   }
 };
-const handleUpdate = async (id, veiculoAtualizado) => {
+const handleUpdate = async (id, livroAtualizado) => {
   try {
-    await axios.put(`http://localhost:8090/veiculos/${id}`, veiculoAtualizado);
-    fetchVeiculos();
+    await axios.put(`http://localhost:8090/livros/${id}`, livroAtualizado);
+    fetchLivros();
   } catch (error) {
     console.error('Erro ao atualizar veículo:', error);
   }
@@ -70,7 +71,7 @@ return (
         type="text"
         name="placa"
         placeholder="Placa"
-        value={novoVeiculo.placa}
+        value={novoLivro.placa}
         onChange={handleInputChange}
       />
       {/* Campo para a montadora */}
@@ -78,7 +79,7 @@ return (
         type="text"
         name="montadora"
         placeholder="Montadora"
-        value={novoVeiculo.montadora}
+        value={novoLivro.montadora}
         onChange={handleInputChange}
       />
       {/* Campo para o modelo */}
@@ -86,7 +87,7 @@ return (
         type="text"
         name="modelo"
         placeholder="Modelo"
-        value={novoVeiculo.modelo}
+        value={novoLivro.modelo}
         onChange={handleInputChange}
       />
       {/* Campo para o ano */}
@@ -94,7 +95,7 @@ return (
         type="number"
         name="ano"
         placeholder="Ano"
-        value={novoVeiculo.ano}
+        value={novoLivro.ano}
         onChange={handleInputChange}
       />
       {/* Botão de envio do formulário */}
@@ -104,20 +105,20 @@ return (
     {/* Lista de veículos */}
     <ul>
       {/* Mapeamento dos veículos */}
-      {veiculos.map((veiculo) => (
-        <li key={veiculo.id}>
+      {livros.map((livro) => (
+        <li key={livro.id}>
           {/* Exibição dos detalhes do veículo */}
-          {veiculo.placa} - {veiculo.montadora} {veiculo.modelo} ({veiculo.ano})
+          {livro.isbn} - {livro.titulo} {livro.editora} ({livro.genero}) ({livro.autor})
           
           {/* Botão de exclusão */}
-          <button onClick={() => handleDelete(veiculo.id)}>Excluir</button>
+          <button onClick={() => handleDelete(livro.id)}>Excluir</button>
           
           {/* Botão de atualização */}
           <button
             onClick={() =>
-              handleUpdate(veiculo.id, {
-                ...veiculo,
-                modelo: 'Novo Modelo Atualizado', // Exemplo de atualização
+              handleUpdate(livro.id, {
+                ...livro,
+                modelo: 'Novo livro Atualizado', // Exemplo de atualização
               })
             }
           >
