@@ -156,9 +156,6 @@ function App() {
           </>
         )
       }
-
-
-
       <ul>
         {livros.map((livro) => (
           <li key={livro.id}>
@@ -170,13 +167,11 @@ function App() {
               onClick={() =>
                 handleUpdate(livro.id, {
                   ...livro,
-                  isbn: novoLivro.isbn,
-                  titulo: novoLivro.titulo,
-                  editora: novoLivro.editora,
-                  autor: novoLivro.autor,
-                  genero: novoLivro.genero,
-
-
+                  isbn: novoLivro.isbn !=="" ? novoLivro.isbn : livros.isbn,
+                  titulo: novoLivro.titulo !=="" ? novoLivro.titulo : livros.titulo,
+                  editora: novoLivro.editora !=="" ? novoLivro.editora : livros.editora,
+                  autor: novoLivro.autor !=="" ? novoLivro.autor : livros.autor,
+                  genero: novoLivro.genero !=="" ? novoLivro.isbn : livros.genero,
                 })
               }
             >
